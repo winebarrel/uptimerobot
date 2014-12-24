@@ -1,5 +1,4 @@
-require 'uptime_robot/version'
+module UptimeRobot; end
 
-module UptimeRobot
-  # Your code goes here...
-end
+require 'uptime_robot/client'
+require 'uptime_robot/version'
