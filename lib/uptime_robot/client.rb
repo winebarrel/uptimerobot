@@ -1,5 +1,6 @@
 class UptimeRobot::Client
   ENDPOINT = 'http://api.uptimerobot.com'
+  USER_AGENT = "Ruby UptimeRobot Client #{UptimeRobot::VERSION}"
 
   METHODS = {
     :get_account_details => :getAccountDetails,
@@ -28,6 +29,8 @@ class UptimeRobot::Client
         faraday.adapter Faraday.default_adapter
       end
     end
+
+    @conn.headers[:user_agent] = USER_AGENT
   end
 
   private
