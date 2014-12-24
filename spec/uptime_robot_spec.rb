@@ -42,4 +42,19 @@ describe UptimeRobot::Client do
       }.to raise_error(UptimeRobot::Error, response.inspect)
     end
   end
+
+  context 'when status is not 200' do
+    it do
+      client = uptime_robot do |stub|
+        stub.get('getAccountDetails') do |env|
+          expect(env.params).to eq DEFAULT_PARAMS
+          [500, {}, 'An error occurred on the server when processing the URL']
+        end
+      end
+
+      expect {
+        client.get_account_details
+      }.to raise_error
+    end
+  end
 end
