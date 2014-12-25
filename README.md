@@ -1,6 +1,6 @@
 # UptimeRobot
 
-[Uptime Robot](https://uptimerobot.com/) API Client for Ruby.
+[Uptime Robot](https://uptimerobot.com/) API client for Ruby.
 
 ## Installation
 
@@ -20,12 +20,37 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'uptimerobot'
 
-## Contributing
+client = UptimeRobot::Client.new(api_key: 'u194443-cd0128fcae0e9dd33af61171')
 
-1. Fork it ( https://github.com/[my-github-username]/uptimerobot/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+client.getMonitors
+# => {"stat"=>"ok",
+#     "offset"=>"0",
+#     "limit"=>"50",
+#     "total"=>"2",
+#     "monitors"=>
+#      {"monitor"=>
+#        [{"id"=>"128795",
+#          "friendlyname"=>"Yahoo",
+#          "url"=>"http://www.yahoo.com/",
+#          "type"=>"1",
+#          "subtype"=>"",
+#          ...
+
+client.newMonitor(
+  :monitorFriendlyName => 'Google',
+  :monitorURL => 'http://www.google.com',
+  :monitorType => UptimeRobot::Monitor::Type::HTTP,
+  :monitorAlertContacts => '448-716'
+)
+```
+
+## Test
+
+    $ bundle exec rake
+
+## Uptime Robot API reference
+
+https://uptimerobot.com/api

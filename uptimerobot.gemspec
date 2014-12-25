@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = UptimeRobot::VERSION
   spec.authors       = ['Genki Sugawara']
   spec.email         = ['sgwr_dts@yahoo.co.jp']
-  spec.summary       = %q{Uptime Robot API Client for Ruby.}
-  spec.description   = %q{Uptime Robot API Client for Ruby.}
+  spec.summary       = %q{Uptime Robot API client for Ruby.}
+  spec.description   = %q{Uptime Robot API client for Ruby.}
   spec.homepage      = 'https://github.com/winebarrel/uptimerobot'
   spec.license       = 'MIT'
 
