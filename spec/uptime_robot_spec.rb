@@ -141,6 +141,30 @@ describe UptimeRobot::Client do
     end
   end
 
+  describe '#editMonitor' do
+    let(:params) do
+      {
+        :monitorID => 128798,
+        :monitorFriendlyName => 'GoogleHomepage'
+      }
+    end
+
+    let(:response) do
+      {"stat"=>"ok", "monitor"=>{"id"=>"128798"}}
+    end
+
+    it do
+      client = uptime_robot do |stub|
+        stub.get('editMonitor') do |env|
+          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+        end
+      end
+
+      expect(client.editMonitor(params)).to eq response
+    end
+  end
+
   context 'when stat is fail' do
     let(:response) do
       {"stat"=>"fail", "id"=>"101", "message"=>"apiKey is wrong"}
