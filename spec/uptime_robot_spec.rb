@@ -120,7 +120,7 @@ describe UptimeRobot::Client do
       {
         :monitorFriendlyName => 'Google',
         :monitorURL => 'http://www.google.com',
-        :monitorType => UptimeRobot::MonitorType::HTTP,
+        :monitorType => UptimeRobot::Monitor::Type::HTTP,
         :monitorAlertContacts => '448-716'
       }
     end
@@ -217,6 +217,30 @@ describe UptimeRobot::Client do
       end
 
       expect(client.getAlertContacts(params)).to eq response
+    end
+  end
+
+  describe '#newAlertContact' do
+    let(:params) do
+      {
+        :alertContactType => UptimeRobot::AlertContact::Type::Email,
+        :alertContactValue => 'uptime@webresourcesdepot.com'
+      }
+    end
+
+    let(:response) do
+      {"stat"=>"ok", "alertcontact"=>{"id"=>"4561", "status"=>"0"}}
+    end
+
+    it do
+      client = uptime_robot do |stub|
+        stub.get('newAlertContact') do |env|
+          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+        end
+      end
+
+      expect(client.newAlertContact(params)).to eq response
     end
   end
 
