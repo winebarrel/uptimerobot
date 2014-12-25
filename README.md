@@ -2,6 +2,9 @@
 
 [Uptime Robot](https://uptimerobot.com/) API client for Ruby.
 
+[![Gem Version](https://badge.fury.io/rb/uptimerobot.svg)](http://badge.fury.io/rb/uptimerobot)
+[![Build Status](https://travis-ci.org/winebarrel/uptimerobot.svg?branch=master)](https://travis-ci.org/winebarrel/uptimerobot)
+
 ## Installation
 
 Add this line to your application's Gemfile:
