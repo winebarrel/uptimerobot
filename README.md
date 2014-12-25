@@ -1,6 +1,6 @@
 # UptimeRobot
 
-TODO: Write a gem description
+[Uptime Robot](https://uptimerobot.com/) API Client for Ruby.
 
 ## Installation
 
