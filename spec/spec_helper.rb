@@ -15,3 +15,7 @@ def uptime_robot
     end
   end
 end
+
+def stringify_hash(hash)
+  Hash[*hash.map {|k, v| [k.to_s, v.to_s] }.flatten(1)]
+end

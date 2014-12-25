@@ -2,9 +2,10 @@ class UptimeRobot::Client
   ENDPOINT = 'http://api.uptimerobot.com'
   USER_AGENT = "Ruby UptimeRobot Client #{UptimeRobot::VERSION}"
 
-  METHODS = {
-    :get_account_details => :getAccountDetails,
-  }
+  METHODS = [
+    :getAccountDetails,
+    :getMonitors,
+  ]
 
   DEFAULT_ADAPTERS = [
     Faraday::Adapter::NetHttp,
@@ -36,9 +37,9 @@ class UptimeRobot::Client
   private
 
   def method_missing(method_name, *args, &block)
-    ur_method = METHODS[method_name]
-
-    raise NoMethodError, "undefined method: #{method_name}" unless ur_method
+    unless METHODS.include?(method_name)
+      raise NoMethodError, "undefined method: #{method_name}"
+    end
 
     len = args.length
     params = args.first
@@ -47,7 +48,7 @@ class UptimeRobot::Client
       raise ArgumentError, "invalid argument: #{args}"
     end
 
-    request(ur_method, params || {}, &block)
+    request(method_name, params || {}, &block)
   end
 
   def request(method_name, params = {})
@@ -69,7 +70,6 @@ class UptimeRobot::Client
       raise UptimeRobot::Error.new(json)
     end
 
-    json.delete('stat')
-    json.values.first
+    json
   end
 end
