@@ -1,4 +1,4 @@
-require 'uptime_robot'
+require 'uptimerobot'
 
 DEFAULT_PARAMS = {
   'apiKey' => 'ZAPZAPZAP',

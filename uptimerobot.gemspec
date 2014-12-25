@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'uptime_robot/version'
+require 'uptimerobot/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'uptime_robot'
+  spec.name          = 'uptimerobot'
   spec.version       = UptimeRobot::VERSION
   spec.authors       = ['Genki Sugawara']
   spec.email         = ['sgwr_dts@yahoo.co.jp']
