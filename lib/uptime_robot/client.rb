@@ -5,6 +5,7 @@ class UptimeRobot::Client
   METHODS = [
     :getAccountDetails,
     :getMonitors,
+    :newMonitor,
   ]
 
   DEFAULT_ADAPTERS = [
