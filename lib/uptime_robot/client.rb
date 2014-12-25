@@ -8,6 +8,7 @@ class UptimeRobot::Client
     :newMonitor,
     :editMonitor,
     :deleteMonitor,
+    :getAlertContacts,
   ]
 
   DEFAULT_ADAPTERS = [

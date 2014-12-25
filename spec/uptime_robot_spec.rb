@@ -168,7 +168,7 @@ describe UptimeRobot::Client do
   describe '#deleteMonitor' do
     let(:params) do
       {
-        :monitorID => 128798,
+        :monitorID => 128798
       }
     end
 
@@ -185,6 +185,38 @@ describe UptimeRobot::Client do
       end
 
       expect(client.deleteMonitor(params)).to eq response
+    end
+  end
+
+  describe '#getAlertContacts' do
+    let(:params) do
+      {
+        :alertcontacts => 236
+      }
+    end
+
+    let(:response) do
+      {"stat"=>"ok",
+       "offset"=>"0",
+       "limit"=>"50",
+       "total"=>"1",
+       "alertcontacts"=>
+        {"alertcontact"=>
+          [{"id"=>"236",
+            "value"=>"uptime@webresourcesdepot.com",
+            "type"=>"2",
+            "status"=>"2"}]}}
+    end
+
+    it do
+      client = uptime_robot do |stub|
+        stub.get('getAlertContacts') do |env|
+          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+        end
+      end
+
+      expect(client.getAlertContacts(params)).to eq response
     end
   end
 
