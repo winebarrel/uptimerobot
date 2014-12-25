@@ -56,4 +56,4 @@ client.newMonitor(
 
 ## Uptime Robot API reference
 
-https://uptimerobot.com/api
+* https://uptimerobot.com/api
