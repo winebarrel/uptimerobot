@@ -21,6 +21,23 @@ module UptimeRobot
       KeywordExists = 1
       KeywordNotExists = 2
     end
+
+    module Status
+      Paused = 0
+      NotCheckedYet = 1
+      Up = 2
+      SeemsDown = 8
+      Down = 9
+    end
+  end
+
+  module Log
+    module Type
+      Down = 1
+      Up = 2
+      Paused = 99
+      Started = 98
+    end
   end
 
   module AlertContact
@@ -35,6 +52,12 @@ module UptimeRobot
       Pushover = 9
       HipChat = 10
       Slack = 11
+    end
+
+    module Status
+      NotSctivated = 0
+      Paused = 1
+      Active = 2
     end
   end
 end

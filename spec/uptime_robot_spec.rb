@@ -244,6 +244,29 @@ describe UptimeRobot::Client do
     end
   end
 
+  describe '#deleteAlertContact' do
+    let(:params) do
+      {
+        :alertContactID => 236
+      }
+    end
+
+    let(:response) do
+      {"stat"=>"ok", "alertcontact"=>{"id"=>"236"}}
+    end
+
+    it do
+      client = uptime_robot do |stub|
+        stub.get('deleteAlertContact') do |env|
+          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+        end
+      end
+
+      expect(client.deleteAlertContact(params)).to eq response
+    end
+  end
+
   context 'when stat is fail' do
     let(:response) do
       {"stat"=>"fail", "id"=>"101", "message"=>"apiKey is wrong"}
