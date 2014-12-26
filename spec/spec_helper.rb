@@ -9,7 +9,7 @@ DEFAULT_PARAMS = {
 def uptime_robot
   stubs = Faraday::Adapter::Test::Stubs.new
 
-  described_class.new(api_key: 'ZAPZAPZAP') do |faraday|
+  described_class.new(apiKey: 'ZAPZAPZAP') do |faraday|
     faraday.adapter :test, stubs do |stub|
       yield(stub)
     end

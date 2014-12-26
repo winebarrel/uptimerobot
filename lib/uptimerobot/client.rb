@@ -19,9 +19,9 @@ class UptimeRobot::Client
   ]
 
   def initialize(options)
-    @api_key = options.delete(:api_key)
+    @apiKey = options.delete(:apiKey)
 
-    raise ':api_key is required' unless @api_key
+    raise ':apiKey is required' unless @apiKey
 
     options[:url] ||= ENDPOINT
 
@@ -59,7 +59,7 @@ class UptimeRobot::Client
 
   def request(method_name, params = {})
     params.update(
-      :apiKey => @api_key,
+      :apiKey => @apiKey,
       :format => 'json',
       :noJsonCallback => 1
     )
