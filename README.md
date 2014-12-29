@@ -43,10 +43,10 @@ client.getMonitors
 #          ...
 
 client.newMonitor(
-  :monitorFriendlyName => 'Google',
-  :monitorURL => 'http://www.google.com',
-  :monitorType => UptimeRobot::Monitor::Type::HTTP,
-  :monitorAlertContacts => '448-716'
+  monitorFriendlyName: 'Google',
+  monitorURL: 'http://www.google.com',
+  monitorType: UptimeRobot::Monitor::Type::HTTP,
+  monitorAlertContacts: '448,716'
 )
 ```
 
