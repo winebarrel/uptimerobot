@@ -320,4 +320,12 @@ describe UptimeRobot::Client do
       }.to raise_error(ArgumentError, 'invalid argument: [0]')
     end
   end
+
+  context 'when apiKey is not passed' do
+    it do
+      expect {
+        uptime_robot(:apiKey => nil)
+      }.to raise_error(ArgumentError, ':apiKey is required')
+    end
+  end
 end

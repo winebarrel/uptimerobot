@@ -6,10 +6,12 @@ DEFAULT_PARAMS = {
   'noJsonCallback' => '1'
 }
 
-def uptime_robot
+def uptime_robot(options = {})
+  options = {apiKey: 'ZAPZAPZAP'}.merge(options)
+
   stubs = Faraday::Adapter::Test::Stubs.new
 
-  described_class.new(apiKey: 'ZAPZAPZAP') do |faraday|
+  described_class.new(options) do |faraday|
     faraday.adapter :test, stubs do |stub|
       yield(stub)
     end

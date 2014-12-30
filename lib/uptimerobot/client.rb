@@ -21,7 +21,7 @@ class UptimeRobot::Client
   def initialize(options)
     @apiKey = options.delete(:apiKey)
 
-    raise ':apiKey is required' unless @apiKey
+    raise ArgumentError, ':apiKey is required' unless @apiKey
 
     options[:url] ||= ENDPOINT
 
