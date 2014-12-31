@@ -328,4 +328,40 @@ describe UptimeRobot::Client do
       }.to raise_error(ArgumentError, ':apiKey is required')
     end
   end
+
+  context 'when account has no monitors' do
+    let(:response) {
+      {"stat"=>"fail", "id"=>"212", "message"=>"The account has no monitors"}
+    }
+
+    it do
+      client = uptime_robot do |stub|
+        stub.get('getAccountDetails') do |env|
+          expect(env.params).to eq DEFAULT_PARAMS
+          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+        end
+      end
+
+      expect(client.getAccountDetails).to eq(
+        {"stat"=>"fail",
+         "id"=>"212",
+         "message"=>"The account has no monitors",
+         "total"=>"0",
+         "monitors"=>{"monitor"=>[]}}
+      )
+    end
+
+    it do
+      client = uptime_robot(:raise_no_monitors_error => true) do |stub|
+        stub.get('getAccountDetails') do |env|
+          expect(env.params).to eq DEFAULT_PARAMS
+          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+        end
+      end
+
+      expect {
+        client.getAccountDetails
+      }.to raise_error(UptimeRobot::Error, '{"stat"=>"fail", "id"=>"212", "message"=>"The account has no monitors"}')
+    end
+  end
 end
