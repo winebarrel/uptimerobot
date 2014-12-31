@@ -109,8 +109,11 @@ class UptimeRobot::Client
 
   def unescape_monitor!(json)
     json['monitors']['monitor'].each do |monitor|
-      friendlyname = monitor['friendlyname']
-      monitor['friendlyname'] = CGI.unescapeHTML(friendlyname)
+      %w(friendlyname keywordvalue httpusername httppassword).each do |key|
+        value = monitor[key] || ''
+        next if value.empty?
+        monitor[key] = CGI.unescapeHTML(value)
+      end
     end
   end
 end

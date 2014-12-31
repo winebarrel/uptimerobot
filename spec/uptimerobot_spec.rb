@@ -115,23 +115,23 @@ describe UptimeRobot::Client do
     end
 
     context 'when include escaped string' do
-      let(:escaped_string) do
-        'http monitor &#40;basic auth&#41;'
-      end
-
-      let(:unescaped_string) do
-        'http monitor (basic auth)'
-      end
-
       let(:response_with_escaped_string) do
         res = response.dup
-        res['monitors']['monitor'][0]['friendlyname'] = escaped_string
+        monitor = res['monitors']['monitor'][0]
+        monitor['friendlyname'] = 'http monitor &#40;basic auth&#41;'
+        monitor['keywordvalue'] = '&#40;keywordvalue&#41;'
+        monitor['httpusername'] = '&#40;httpusername&#41;'
+        monitor['httppassword'] = '&#40;httppassword&#41;'
         res
       end
 
       let(:response_with_unescaped_string) do
         res = response.dup
-        res['monitors']['monitor'][0]['friendlyname'] = unescaped_string
+        monitor = res['monitors']['monitor'][0]
+        monitor['friendlyname'] = 'http monitor (basic auth)'
+        monitor['keywordvalue'] = '(keywordvalue)'
+        monitor['httpusername'] = '(httpusername)'
+        monitor['httppassword'] = '(httppassword)'
         res
       end
 
