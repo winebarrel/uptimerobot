@@ -19,10 +19,12 @@ class UptimeRobot::Client
   ]
 
   def initialize(options)
-    @apiKey = options.delete(:apiKey)
-    @raise_no_monitors_error = !!options.delete(:raise_no_monitors_error)
+    @options = {
+      :apiKey => options.delete(:apiKey),
+      :raise_no_monitors_error => !!options.delete(:raise_no_monitors_error),
+    }
 
-    raise ArgumentError, ':apiKey is required' unless @apiKey
+    raise ArgumentError, ':apiKey is required' unless @options[:apiKey]
 
     options[:url] ||= ENDPOINT
 
@@ -60,7 +62,7 @@ class UptimeRobot::Client
 
   def request(method_name, params = {})
     params.update(
-      :apiKey => @apiKey,
+      :apiKey => @options[:apiKey],
       :format => 'json',
       :noJsonCallback => 1
     )
@@ -75,7 +77,7 @@ class UptimeRobot::Client
 
     if json['stat'] != 'ok'
       if json['id'] == '212'
-        if @raise_no_monitors_error
+        if @options[:raise_no_monitors_error]
           raise UptimeRobot::Error.new(json)
         else
           json.update(
