@@ -18,8 +18,8 @@ module UptimeRobot
     end
 
     module KeywordType
-      KeywordExists = 1
-      KeywordNotExists = 2
+      Exists = 1
+      NotExists = 2
     end
 
     module Status
