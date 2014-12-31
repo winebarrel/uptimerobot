@@ -18,11 +18,18 @@ class UptimeRobot::Client
     Faraday::Adapter::Test
   ]
 
+  OPTIONS = [
+    :apiKey,
+    :raise_no_monitors_error,
+    :skip_unescape_monitor
+  ]
+
   def initialize(options)
-    @options = {
-      :apiKey => options.delete(:apiKey),
-      :raise_no_monitors_error => !!options.delete(:raise_no_monitors_error),
-    }
+    @options = {}
+
+    OPTIONS.each do |key|
+      @options[key] = options.delete(key)
+    end
 
     raise ArgumentError, ':apiKey is required' unless @options[:apiKey]
 
@@ -74,7 +81,16 @@ class UptimeRobot::Client
     end
 
     json = response.body
+    validate_response!(json)
 
+    if method_name == :getMonitors and not @options[:skip_unescape_monitor]
+      unescape_monitor!(json)
+    end
+
+    json
+  end
+
+  def validate_response!(json)
     if json['stat'] != 'ok'
       if json['id'] == '212'
         if @options[:raise_no_monitors_error]
@@ -89,7 +105,12 @@ class UptimeRobot::Client
         raise UptimeRobot::Error.new(json)
       end
     end
+  end
 
-    json
+  def unescape_monitor!(json)
+    json['monitors']['monitor'].each do |monitor|
+      friendlyname = monitor['friendlyname']
+      monitor['friendlyname'] = CGI.unescapeHTML(friendlyname)
+    end
   end
 end

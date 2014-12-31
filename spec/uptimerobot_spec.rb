@@ -113,6 +113,50 @@ describe UptimeRobot::Client do
 
       expect(client.getMonitors(params)).to eq response
     end
+
+    context 'when include escaped string' do
+      let(:escaped_string) do
+        'http monitor &#40;basic auth&#41;'
+      end
+
+      let(:unescaped_string) do
+        'http monitor (basic auth)'
+      end
+
+      let(:response_with_escaped_string) do
+        res = response.dup
+        res['monitors']['monitor'][0]['friendlyname'] = escaped_string
+        res
+      end
+
+      let(:response_with_unescaped_string) do
+        res = response.dup
+        res['monitors']['monitor'][0]['friendlyname'] = unescaped_string
+        res
+      end
+
+      it do
+        client = uptime_robot do |stub|
+          stub.get('getMonitors') do |env|
+            expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+            [200, {'Content-Type' => 'json'}, JSON.dump(response_with_escaped_string)]
+          end
+        end
+
+        expect(client.getMonitors(params)).to eq response_with_unescaped_string
+      end
+
+      it do
+        client = uptime_robot(:skip_unescape_monitor => true) do |stub|
+          stub.get('getMonitors') do |env|
+            expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+            [200, {'Content-Type' => 'json'}, JSON.dump(response_with_escaped_string)]
+          end
+        end
+
+        expect(client.getMonitors(params)).to eq response_with_escaped_string
+      end
+    end
   end
 
   describe '#newMonitor' do
