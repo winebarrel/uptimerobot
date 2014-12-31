@@ -20,6 +20,7 @@ class UptimeRobot::Client
 
   def initialize(options)
     @apiKey = options.delete(:apiKey)
+    @raise_no_monitors_error = !!options.delete(:raise_no_monitors_error)
 
     raise ArgumentError, ':apiKey is required' unless @apiKey
 
@@ -73,7 +74,18 @@ class UptimeRobot::Client
     json = response.body
 
     if json['stat'] != 'ok'
-      raise UptimeRobot::Error.new(json)
+      if json['id'] == '212'
+        if @raise_no_monitors_error
+          raise UptimeRobot::Error.new(json)
+        else
+          json.update(
+            'total' => '0',
+            'monitors' => {'monitor' => []}
+          )
+        end
+      else
+        raise UptimeRobot::Error.new(json)
+      end
     end
 
     json
