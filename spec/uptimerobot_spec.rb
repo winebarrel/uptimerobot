@@ -13,7 +13,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('getAccountDetails') do |env|
           expect(env.params).to eq DEFAULT_PARAMS
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -107,7 +107,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('getMonitors') do |env|
           expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -139,7 +139,7 @@ describe UptimeRobot::Client do
         client = uptime_robot do |stub|
           stub.get('getMonitors') do |env|
             expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-            [200, {'Content-Type' => 'json'}, JSON.dump(response_with_escaped_string)]
+            [200, {'Content-Type' => 'application/json'}, JSON.dump(response_with_escaped_string)]
           end
         end
 
@@ -150,7 +150,7 @@ describe UptimeRobot::Client do
         client = uptime_robot(:skip_unescape_monitor => true) do |stub|
           stub.get('getMonitors') do |env|
             expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-            [200, {'Content-Type' => 'json'}, JSON.dump(response_with_escaped_string)]
+            [200, {'Content-Type' => 'application/json'}, JSON.dump(response_with_escaped_string)]
           end
         end
 
@@ -177,7 +177,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('newMonitor') do |env|
           expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -201,7 +201,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('editMonitor') do |env|
           expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -224,7 +224,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('deleteMonitor') do |env|
           expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -256,7 +256,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('getAlertContacts') do |env|
           expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -280,7 +280,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('newAlertContact') do |env|
           expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -303,7 +303,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('deleteAlertContact') do |env|
           expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -320,7 +320,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('getAccountDetails') do |env|
           expect(env.params).to eq DEFAULT_PARAMS
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -382,7 +382,7 @@ describe UptimeRobot::Client do
       client = uptime_robot do |stub|
         stub.get('getAccountDetails') do |env|
           expect(env.params).to eq DEFAULT_PARAMS
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
@@ -399,7 +399,7 @@ describe UptimeRobot::Client do
       client = uptime_robot(:raise_no_monitors_error => true) do |stub|
         stub.get('getAccountDetails') do |env|
           expect(env.params).to eq DEFAULT_PARAMS
-          [200, {'Content-Type' => 'json'}, JSON.dump(response)]
+          [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
 
