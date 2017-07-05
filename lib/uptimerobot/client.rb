@@ -77,7 +77,7 @@ class UptimeRobot::Client
     )
 
     response = @conn.post do |req|
-      req.url "/#{UptimeRobot::VERSION}/#{method_name}"
+      req.url "/#{UptimeRobot::API_VERSION}/#{method_name}"
       req.body = URI.encode_www_form(params)
       yield(req) if block_given?
     end
