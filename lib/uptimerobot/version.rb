@@ -1,3 +1,4 @@
 module UptimeRobot
-  VERSION = '0.1.6'
+  VERSION = 'v2'
+  GEM_VERSION = '0.2'
 end
