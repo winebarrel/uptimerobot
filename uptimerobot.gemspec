@@ -6,11 +6,11 @@ require 'uptimerobot/version'
 Gem::Specification.new do |spec|
   spec.name          = 'uptimerobot'
   spec.version       = UptimeRobot::GEM_VERSION
-  spec.authors       = ['Genki Sugawara', 'Diego Augusto Ramos']
-  spec.email         = ['sgwr_dts@yahoo.co.jp', 'diego.ramos@adtsys.com.br']
+  spec.authors       = ['Genki Sugawara']
+  spec.email         = ['sgwr_dts@yahoo.co.jp']
   spec.summary       = %q{Uptime Robot API client for Ruby.}
   spec.description   = %q{Uptime Robot API client for Ruby.}
-  spec.homepage      = 'https://github.com/adtsys/uptimerobot'
+  spec.homepage      = 'https://github.com/winebarrel/uptimerobot'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")

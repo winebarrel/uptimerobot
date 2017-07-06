@@ -1,6 +1,6 @@
 # UptimeRobot
 
-[Uptime Robot](https://uptimerobot.com/) API client for Ruby.
+[Uptime Robot](https://uptimerobot.com/) APIv2 client for Ruby.
 
 [![Gem Version](https://badge.fury.io/rb/uptimerobot.svg)](http://badge.fury.io/rb/uptimerobot)
 [![Build Status](https://travis-ci.org/winebarrel/uptimerobot.svg?branch=master)](https://travis-ci.org/winebarrel/uptimerobot)
@@ -26,27 +26,38 @@ Or install it yourself as:
 ```ruby
 require 'uptimerobot'
 
-client = UptimeRobot::Client.new(apiKey: 'u956-afus321g565fghr519')
+client = UptimeRobot::Client.new(api_key: 'u956-afus321g565fghr519')
 
 client.getMonitors
-# => {"stat"=>"ok",
-#     "offset"=>"0",
-#     "limit"=>"50",
-#     "total"=>"2",
-#     "monitors"=>
-#      {"monitor"=>
-#        [{"id"=>"128795",
-#          "friendlyname"=>"Yahoo",
-#          "url"=>"http://www.yahoo.com/",
-#          "type"=>"1",
-#          "subtype"=>"",
-#          ...
+# {
+#   "stat": "ok",
+#   "pagination": {
+#     "offset": 0,
+#     "limit": 50,
+#     "total": 2
+#   },
+#   "monitors": [
+#     {
+#       "id": 777749809,
+#       "friendly_name": "Google",
+#       "url": "http://www.google.com",
+#       "type": 1,
+#       ...
+#     },
+#     {
+#       "id": 777712827,
+#       "friendly_name": "My Web Page",
+#       "url": "http://mywebpage.com/",
+#       "type": 1,
+#       ...
+#     },
+#     ...
 
 client.newMonitor(
-  monitorFriendlyName: 'Google',
-  monitorURL: 'http://www.google.com',
-  monitorType: UptimeRobot::Monitor::Type::HTTP,
-  monitorAlertContacts: '448,716'
+  friendly_name: 'Google',
+  url: 'http://www.google.com',
+  type: UptimeRobot::Monitor::Type::HTTP,
+  alert_contacts: '448,716'
 )
 ```
 
