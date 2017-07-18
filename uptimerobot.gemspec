@@ -5,7 +5,7 @@ require 'uptimerobot/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'uptimerobot'
-  spec.version       = UptimeRobot::VERSION
+  spec.version       = UptimeRobot::GEM_VERSION
   spec.authors       = ['Genki Sugawara']
   spec.email         = ['sgwr_dts@yahoo.co.jp']
   spec.summary       = %q{Uptime Robot API client for Ruby.}

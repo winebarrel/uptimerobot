@@ -1,13 +1,17 @@
 require 'uptimerobot'
 
 DEFAULT_PARAMS = {
-  'apiKey' => 'ZAPZAPZAP',
+  'api_key' => 'ZAPZAPZAP',
   'format' => 'json',
   'noJsonCallback' => '1'
 }
 
+def decoded_request_body(body)
+  Hash[URI.decode_www_form(body)]
+end
+
 def uptime_robot(options = {})
-  options = {apiKey: 'ZAPZAPZAP'}.merge(options)
+  options = {api_key: 'ZAPZAPZAP'}.merge(options)
 
   stubs = Faraday::Adapter::Test::Stubs.new
 

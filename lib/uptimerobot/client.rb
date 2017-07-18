@@ -1,6 +1,6 @@
 class UptimeRobot::Client
-  ENDPOINT = 'http://api.uptimerobot.com'
-  USER_AGENT = "Ruby UptimeRobot Client #{UptimeRobot::VERSION}"
+  ENDPOINT = "https://api.uptimerobot.com/"
+  USER_AGENT = "Ruby UptimeRobot Client #{UptimeRobot::GEM_VERSION}"
 
   METHODS = [
     :getAccountDetails,
@@ -19,9 +19,10 @@ class UptimeRobot::Client
   ]
 
   OPTIONS = [
-    :apiKey,
+    :api_key,
     :raise_no_monitors_error,
-    :skip_unescape_monitor
+    :skip_unescape_monitor,
+    :debug
   ]
 
   def initialize(options)
@@ -31,7 +32,7 @@ class UptimeRobot::Client
       @options[key] = options.delete(key)
     end
 
-    raise ArgumentError, ':apiKey is required' unless @options[:apiKey]
+    raise ArgumentError, ':api_key is required' unless @options[:api_key]
 
     options[:url] ||= ENDPOINT
 
@@ -39,6 +40,7 @@ class UptimeRobot::Client
       faraday.request  :url_encoded
       faraday.response :json, :content_type => /\bjson$/
       faraday.response :raise_error
+      faraday.response :logger, ::Logger.new(STDOUT), bodies: true if @options[:debug]
 
       yield(faraday) if block_given?
 
@@ -69,14 +71,14 @@ class UptimeRobot::Client
 
   def request(method_name, params = {})
     params.update(
-      :apiKey => @options[:apiKey],
+      :api_key => @options[:api_key],
       :format => 'json',
       :noJsonCallback => 1
     )
 
-    response = @conn.get do |req|
-      req.url "/#{method_name}"
-      req.params = params
+    response = @conn.post do |req|
+      req.url "/#{UptimeRobot::API_VERSION}/#{method_name}"
+      req.body = URI.encode_www_form(params)
       yield(req) if block_given?
     end
 
@@ -98,7 +100,7 @@ class UptimeRobot::Client
         else
           json.update(
             'total' => '0',
-            'monitors' => {'monitor' => []}
+            'monitors' => []
           )
         end
       else
@@ -108,8 +110,8 @@ class UptimeRobot::Client
   end
 
   def unescape_monitor!(json)
-    json['monitors']['monitor'].each do |monitor|
-      %w(friendlyname keywordvalue httpusername httppassword).each do |key|
+    json['monitors'].each do |monitor|
+      %w(friendly_name keyword_value http_username http_password).each do |key|
         value = monitor[key] || ''
         next if value.empty?
         monitor[key] = CGI.unescapeHTML(value)

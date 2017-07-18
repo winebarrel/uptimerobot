@@ -11,11 +11,12 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('getAccountDetails') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS
+        stub.post('/v2/getAccountDetails') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
+
 
       expect(client.getAccountDetails).to eq response
     end
@@ -25,88 +26,89 @@ describe UptimeRobot::Client do
     let(:params) do
       {
         :logs => 1,
-        :alertContacts => 1,
-        :responseTimes => 1,
-        :responseTimesAverage => 180,
+        :alert_contacts => 1,
+        :response_times => 1,
+        :response_times_average => 180,
         :monitors => '15830-32696'
       }
     end
 
     let(:response) do
       {"stat"=>"ok",
-       "offset"=>"0",
-       "limit"=>"50",
-       "total"=>"2",
+       "pagination"=>{
+         "offset"=>"0",
+         "limit"=>"50",
+         "total"=>"2"
+       },
        "monitors"=>
-        {"monitor"=>
-          [{"id"=>"128795",
-            "friendlyname"=>"Yahoo",
-            "url"=>"http://www.yahoo.com/",
-            "type"=>"1",
-            "subtype"=>"",
-            "keywordtype"=>"0",
-            "keywordvalue"=>"",
-            "httpusername"=>"",
-            "httppassword"=>"",
-            "port"=>"",
-            "interval"=>"300",
-            "status"=>"2",
-            "alltimeuptimeratio"=>"99.98",
-            "customuptimeratio"=>"100.00",
-            "alertcontact"=>
-             [{"id"=>"4631", "type"=>"2", "value"=>"uptime@webresourcesdepot.com"},
-              {"id"=>"2420", "type"=>"3", "value"=>"umutm"}],
-            "log"=>
-             [{"type"=>"2",
-               "datetime"=>"09/25/2011 16:12:44",
-               "alertcontact"=>
-                [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
-                 {"type"=>"3", "value"=>"umutm"}]},
-              {"type"=>"1",
-               "datetime"=>"09/25/2011 16:11:44",
-               "alertcontact"=>
-                [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
-                 {"type"=>"3", "value"=>"umutm"}]}],
-            "responsetime"=>
-             [{"datetime"=>"02/04/2014 11:30:41", "value"=>"405"},
-              {"datetime"=>"02/04/2014 12:00:41", "value"=>"516"},
-              {"datetime"=>"02/04/2014 12:30:41", "value"=>"780"}]},
-           {"id"=>"128796",
-            "friendlyname"=>"WebResourcesDepot",
-            "url"=>"http://www.webresourcesdepot.com/",
-            "type"=>"1",
-            "subtype"=>"",
-            "keywordtype"=>"0",
-            "keywordvalue"=>"",
-            "httpusername"=>"",
-            "httppassword"=>"",
-            "port"=>"",
-            "interval"=>"300",
-            "status"=>"2",
-            "alltimeuptimeratio"=>"99.94",
-            "customtimeuptimeratio"=>"89.51",
-            "alertcontact"=>[{"id"=>"2420", "type"=>"3", "value"=>"umutm"}],
-            "log"=>
-             [{"type"=>"2",
-               "datetime"=>"08/30/2011 16:11:15",
-               "alertcontact"=>
-                [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
-                 {"type"=>"3", "value"=>"umutm"}]},
-              {"type"=>"1",
-               "datetime"=>"08/30/2011 16:09:30",
-               "alertcontact"=>
-                [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
-                 {"type"=>"3", "value"=>"umutm"}]}],
-            "responsetime"=>
-             [{"datetime"=>"02/04/2014 11:48:41", "value"=>"405"},
-              {"datetime"=>"02/04/2014 12:18:41", "value"=>"516"},
-              {"datetime"=>"02/04/2014 12:48:41", "value"=>"780"}]}]}}
+        [{"id"=>"128795",
+          "friendlyname"=>"Yahoo",
+          "url"=>"http://www.yahoo.com/",
+          "type"=>"1",
+          "subtype"=>"",
+          "keywordtype"=>"0",
+          "keywordvalue"=>"",
+          "httpusername"=>"",
+          "httppassword"=>"",
+          "port"=>"",
+          "interval"=>"300",
+          "status"=>"2",
+          "alltimeuptimeratio"=>"99.98",
+          "customuptimeratio"=>"100.00",
+          "alertcontact"=>
+           [{"id"=>"4631", "type"=>"2", "value"=>"uptime@webresourcesdepot.com"},
+            {"id"=>"2420", "type"=>"3", "value"=>"umutm"}],
+          "log"=>
+           [{"type"=>"2",
+             "datetime"=>"09/25/2011 16:12:44",
+             "alertcontact"=>
+              [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
+               {"type"=>"3", "value"=>"umutm"}]},
+            {"type"=>"1",
+             "datetime"=>"09/25/2011 16:11:44",
+             "alertcontact"=>
+              [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
+               {"type"=>"3", "value"=>"umutm"}]}],
+          "responsetime"=>
+           [{"datetime"=>"02/04/2014 11:30:41", "value"=>"405"},
+            {"datetime"=>"02/04/2014 12:00:41", "value"=>"516"},
+            {"datetime"=>"02/04/2014 12:30:41", "value"=>"780"}]},
+         {"id"=>"128796",
+          "friendlyname"=>"WebResourcesDepot",
+          "url"=>"http://www.webresourcesdepot.com/",
+          "type"=>"1",
+          "subtype"=>"",
+          "keywordtype"=>"0",
+          "keywordvalue"=>"",
+          "httpusername"=>"",
+          "httppassword"=>"",
+          "port"=>"",
+          "interval"=>"300",
+          "status"=>"2",
+          "alltimeuptimeratio"=>"99.94",
+          "customtimeuptimeratio"=>"89.51",
+          "alertcontact"=>[{"id"=>"2420", "type"=>"3", "value"=>"umutm"}],
+          "log"=>
+           [{"type"=>"2",
+             "datetime"=>"08/30/2011 16:11:15",
+             "alertcontact"=>
+              [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
+               {"type"=>"3", "value"=>"umutm"}]},
+            {"type"=>"1",
+             "datetime"=>"08/30/2011 16:09:30",
+             "alertcontact"=>
+              [{"type"=>"0", "value"=>"uptime@webresourcesdepot.com"},
+               {"type"=>"3", "value"=>"umutm"}]}],
+          "responsetime"=>
+           [{"datetime"=>"02/04/2014 11:48:41", "value"=>"405"},
+            {"datetime"=>"02/04/2014 12:18:41", "value"=>"516"},
+            {"datetime"=>"02/04/2014 12:48:41", "value"=>"780"}]}]}
     end
 
     it do
       client = uptime_robot do |stub|
-        stub.get('getMonitors') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+        stub.post('/v2/getMonitors') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -117,28 +119,28 @@ describe UptimeRobot::Client do
     context 'when include escaped string' do
       let(:response_with_escaped_string) do
         res = response.dup
-        monitor = res['monitors']['monitor'][0]
-        monitor['friendlyname'] = 'http monitor &#40;basic auth&#41;'
-        monitor['keywordvalue'] = '&#40;keywordvalue&#41;'
-        monitor['httpusername'] = '&#40;httpusername&#41;'
-        monitor['httppassword'] = '&#40;httppassword&#41;'
+        monitor = res['monitors'][0]
+        monitor['friendly_name'] = 'http monitor &#40;basic auth&#41;'
+        monitor['keyword_value'] = '&#40;keyword_value&#41;'
+        monitor['http_username'] = '&#40;http_username&#41;'
+        monitor['http_password'] = '&#40;http_password&#41;'
         res
       end
 
       let(:response_with_unescaped_string) do
         res = response.dup
-        monitor = res['monitors']['monitor'][0]
-        monitor['friendlyname'] = 'http monitor (basic auth)'
-        monitor['keywordvalue'] = '(keywordvalue)'
-        monitor['httpusername'] = '(httpusername)'
-        monitor['httppassword'] = '(httppassword)'
+        monitor = res['monitors'][0]
+        monitor['friendly_name'] = 'http monitor (basic auth)'
+        monitor['keyword_value'] = '(keyword_value)'
+        monitor['http_username'] = '(http_username)'
+        monitor['http_password'] = '(http_password)'
         res
       end
 
       it do
         client = uptime_robot do |stub|
-          stub.get('getMonitors') do |env|
-            expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+          stub.post('/v2/getMonitors') do |env|
+            expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
             [200, {'Content-Type' => 'application/json'}, JSON.dump(response_with_escaped_string)]
           end
         end
@@ -148,8 +150,8 @@ describe UptimeRobot::Client do
 
       it do
         client = uptime_robot(:skip_unescape_monitor => true) do |stub|
-          stub.get('getMonitors') do |env|
-            expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+          stub.post('/v2/getMonitors') do |env|
+            expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
             [200, {'Content-Type' => 'application/json'}, JSON.dump(response_with_escaped_string)]
           end
         end
@@ -162,10 +164,10 @@ describe UptimeRobot::Client do
   describe '#newMonitor' do
     let(:params) do
       {
-        :monitorFriendlyName => 'Google',
-        :monitorURL => 'http://www.google.com',
-        :monitorType => UptimeRobot::Monitor::Type::HTTP,
-        :monitorAlertContacts => '448-716'
+        :friendly_name => 'Google',
+        :url => 'http://www.google.com',
+        :type => UptimeRobot::Monitor::Type::HTTP,
+        :alert_contacts => '448-716'
       }
     end
 
@@ -175,8 +177,8 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('newMonitor') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+        stub.post('/v2/newMonitor') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -188,8 +190,8 @@ describe UptimeRobot::Client do
   describe '#editMonitor' do
     let(:params) do
       {
-        :monitorID => 128798,
-        :monitorFriendlyName => 'GoogleHomepage'
+        :id => 128798,
+        :friendly_name => 'GoogleHomepage'
       }
     end
 
@@ -199,8 +201,8 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('editMonitor') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+        stub.post('/v2/editMonitor') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -222,8 +224,8 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('deleteMonitor') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+        stub.post('/v2/deleteMonitor') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -254,8 +256,8 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('getAlertContacts') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+        stub.post('/v2/getAlertContacts') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -278,8 +280,8 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('newAlertContact') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+        stub.post('/v2/newAlertContact') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -301,8 +303,8 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('deleteAlertContact') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
+        stub.post('/v2/deleteAlertContact') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS.merge(stringify_hash(params))
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -313,13 +315,13 @@ describe UptimeRobot::Client do
 
   context 'when stat is fail' do
     let(:response) do
-      {"stat"=>"fail", "id"=>"101", "message"=>"apiKey is wrong"}
+      {"stat"=>"fail", "id"=>"101", "message"=>"api_key is wrong"}
     end
 
     it do
       client = uptime_robot do |stub|
-        stub.get('getAccountDetails') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS
+        stub.post('/v2/getAccountDetails') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -333,8 +335,8 @@ describe UptimeRobot::Client do
   context 'when status is not 200' do
     it do
       client = uptime_robot do |stub|
-        stub.get('getAccountDetails') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS
+        stub.post('/v2/getAccountDetails') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS
           [500, {}, 'An error occurred on the server when processing the URL']
         end
       end
@@ -365,11 +367,11 @@ describe UptimeRobot::Client do
     end
   end
 
-  context 'when apiKey is not passed' do
+  context 'when api_key is not passed' do
     it do
       expect {
-        uptime_robot(:apiKey => nil)
-      }.to raise_error(ArgumentError, ':apiKey is required')
+        uptime_robot(:api_key => nil)
+      }.to raise_error(ArgumentError, ':api_key is required')
     end
   end
 
@@ -380,8 +382,8 @@ describe UptimeRobot::Client do
 
     it do
       client = uptime_robot do |stub|
-        stub.get('getAccountDetails') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS
+        stub.post('/v2/getAccountDetails') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
@@ -391,14 +393,14 @@ describe UptimeRobot::Client do
          "id"=>"212",
          "message"=>"The account has no monitors",
          "total"=>"0",
-         "monitors"=>{"monitor"=>[]}}
+         "monitors"=>[]}
       )
     end
 
     it do
       client = uptime_robot(:raise_no_monitors_error => true) do |stub|
-        stub.get('getAccountDetails') do |env|
-          expect(env.params).to eq DEFAULT_PARAMS
+        stub.post('/v2/getAccountDetails') do |env|
+          expect(decoded_request_body(env.body)).to eq DEFAULT_PARAMS
           [200, {'Content-Type' => 'application/json'}, JSON.dump(response)]
         end
       end
