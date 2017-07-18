@@ -5,6 +5,16 @@
 [![Gem Version](https://badge.fury.io/rb/uptimerobot.svg)](http://badge.fury.io/rb/uptimerobot)
 [![Build Status](https://travis-ci.org/winebarrel/uptimerobot.svg?branch=master)](https://travis-ci.org/winebarrel/uptimerobot)
 
+### Notice
+
+Currently, this library uses APIv2.
+
+If you want to use APIv1, please specify it as follows:
+
+```
+gem 'uptimerobot', '~> 0.1.6'
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
