@@ -1,5 +1,5 @@
 class UptimeRobot::Client
-  ENDPOINT = "https://api.uptimerobot.com/"
+  ENDPOINT = "https://api.uptimerobot.com/v2/"
   USER_AGENT = "Ruby UptimeRobot Client #{UptimeRobot::GEM_VERSION}"
 
   METHODS = [
